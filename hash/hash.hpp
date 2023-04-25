@@ -24,6 +24,6 @@ private:
     static constexpr unsigned int M = 1000;
     const unsigned int m;
     std::vector<Node*> H;
-    int __hash(std::string word) const;
-    Node* __search(std::string word) const;
+    int hash(std::string word) const;
+    Node* search(std::string word) const;
 };
