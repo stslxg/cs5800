@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include "biheap.hpp"
 
-
 BiHeap::BiHeap(int key) {
     Node *p = new Node(key);
     head = p;
@@ -108,7 +107,7 @@ void BiHeap::__print(Node *r) {
         r = r->sibling;
     }    
 }
-pair<Node*, Node*> BiHeap::__search_min() {
+std::pair<Node*, Node*> BiHeap::__search_min() {
     Node *q = nullptr, *p = head, *res_q = nullptr, *res_p = nullptr;
     int now = INT_MAX;
     while (p) {
@@ -192,36 +191,4 @@ Node* BiHeap::__merge(Node *p, Node *q) {
     }
     
     return head;
-}
-
-
-int main() {
-    char c;
-    int k;
-    BiHeap H;
-    while (true) {
-        cin >> c;
-        if (c == 'i') {
-            cin >> k;
-            H.insert(k);
-        } else if (c == 'm') {
-            cout << H.min() << endl;
-        } else if (c == 'p') {
-            H.print();
-        } else if (c == 'e') {
-            cout << H.extract_min() << endl;
-        } else if (c == 'd') {
-            cin >> k;
-            int kk;
-            cin >> kk;
-            if (kk < k)
-                cout << H.decrease(k, kk) << endl;
-            else
-                cout << false << endl;
-        } else if (c == 'k') {
-            cin >> k;
-            cout << H.del(k) << endl;
-        }
-    }
-    return 0;
 }
