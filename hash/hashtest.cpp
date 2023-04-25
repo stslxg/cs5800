@@ -8,9 +8,9 @@ TEST(TestHash, TestInsert) {
     hash_table.insert("hello", 1);
     hash_table.insert("world", 1);
 
-    ASSERT_EQ(1, hash_table.find("hello"));
-    ASSERT_EQ(1, hash_table.find("world"));
-    ASSERT_EQ(0, hash_table.find("helloworld"));
+    EXPECT_EQ(1, hash_table.find("hello"));
+    EXPECT_EQ(1, hash_table.find("world"));
+    EXPECT_EQ(0, hash_table.find("helloworld"));
 }
 
 class HashSmallTestFixture: public ::testing::Test {
@@ -49,30 +49,30 @@ void HashLargeTestFixture::SetUp() {
 
 
 TEST_F(HashSmallTestFixture, TestMultipleInsert) {
-    ASSERT_EQ(2, hash_table.find("hello"));
-    ASSERT_EQ(2, hash_table.find("world"));
-    ASSERT_EQ(1, hash_table.find("a"));
-    ASSERT_EQ(1, hash_table.find("b"));
-    ASSERT_EQ(1, hash_table.find("c"));
-    ASSERT_EQ(1, hash_table.find("d"));
-    ASSERT_EQ(0, hash_table.find("e"));
+    EXPECT_EQ(2, hash_table.find("hello"));
+    EXPECT_EQ(2, hash_table.find("world"));
+    EXPECT_EQ(1, hash_table.find("a"));
+    EXPECT_EQ(1, hash_table.find("b"));
+    EXPECT_EQ(1, hash_table.find("c"));
+    EXPECT_EQ(1, hash_table.find("d"));
+    EXPECT_EQ(0, hash_table.find("e"));
 }
 
 TEST_F(HashSmallTestFixture, TestDelete) {
     hash_table.del("hello");
 
-    ASSERT_EQ(0, hash_table.find("hello"));
-    ASSERT_EQ(2, hash_table.find("world"));
-    ASSERT_EQ(1, hash_table.find("a"));
-    ASSERT_EQ(1, hash_table.find("b"));
-    ASSERT_EQ(1, hash_table.find("c"));
-    ASSERT_EQ(1, hash_table.find("d"));
+    EXPECT_EQ(0, hash_table.find("hello"));
+    EXPECT_EQ(2, hash_table.find("world"));
+    EXPECT_EQ(1, hash_table.find("a"));
+    EXPECT_EQ(1, hash_table.find("b"));
+    EXPECT_EQ(1, hash_table.find("c"));
+    EXPECT_EQ(1, hash_table.find("d"));
 }
 
 TEST(TestHash, TestEmptyHash) {
     Hash hash_table(2);
-    ASSERT_EQ(0, hash_table.find("hello"));
-    ASSERT_EQ(0, hash_table.find("world"));
+    EXPECT_EQ(0, hash_table.find("hello"));
+    EXPECT_EQ(0, hash_table.find("world"));
 }
 
 TEST(TestHash, TestIncrease) {
@@ -82,9 +82,9 @@ TEST(TestHash, TestIncrease) {
     hash_table.increase("hello");
     hash_table.increase("world");
 
-    ASSERT_EQ(2, hash_table.find("hello"));
-    ASSERT_EQ(2, hash_table.find("world"));
-    ASSERT_EQ(0, hash_table.find("helloworld"));
+    EXPECT_EQ(2, hash_table.find("hello"));
+    EXPECT_EQ(2, hash_table.find("world"));
+    EXPECT_EQ(0, hash_table.find("helloworld"));
 }
 
 TEST_F(HashLargeTestFixture, TestHist) {
@@ -97,8 +97,8 @@ TEST_F(HashLargeTestFixture, TestHist) {
         list_count += count;
     }
     
-    ASSERT_EQ(6, unique_word_count);
-    ASSERT_EQ(10, list_count);
+    EXPECT_EQ(6, unique_word_count);
+    EXPECT_EQ(10, list_count);
 }
 
 TEST(TestHash, TestHistEmpty) {
@@ -106,21 +106,21 @@ TEST(TestHash, TestHistEmpty) {
     std::map<int, int> hist = hash_table.hist();
 
     ASSERT_EQ(1, hist.size());
-    ASSERT_EQ(100, hist[0]);
+    EXPECT_EQ(100, hist[0]);
 }
 
 TEST_F(HashSmallTestFixture, TestListAllKeys) {
     std::vector<std::string> keys = hash_table.list_all_keys();
 
     ASSERT_EQ(6, keys.size());
-    ASSERT_TRUE(std::find(keys.begin(), keys.end(), "hello") != keys.end());
-    ASSERT_TRUE(std::find(keys.begin(), keys.end(), "world") != keys.end());
-    ASSERT_TRUE(std::find(keys.begin(), keys.end(), "a") != keys.end());
-    ASSERT_TRUE(std::find(keys.begin(), keys.end(), "b") != keys.end());
-    ASSERT_TRUE(std::find(keys.begin(), keys.end(), "c") != keys.end());
-    ASSERT_TRUE(std::find(keys.begin(), keys.end(), "d") != keys.end());
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "hello") != keys.end());
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "world") != keys.end());
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "a") != keys.end());
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "b") != keys.end());
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "c") != keys.end());
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "d") != keys.end());
 
-    ASSERT_FALSE(std::find(keys.begin(), keys.end(), "e") != keys.end());
+    EXPECT_FALSE(std::find(keys.begin(), keys.end(), "e") != keys.end());
 }
 
 TEST(TestHash, TestListAllKeysEmpty) {
@@ -136,14 +136,14 @@ TEST_F(HashSmallTestFixture, TestList) {
     std::vector<std::pair<std::string, int>> list = hash_table.list();
 
     ASSERT_EQ(6, list.size());
-    ASSERT_TRUE(std::find(list.begin(), list.end(), std::make_pair("hello"s, 2)) != list.end());
-    ASSERT_TRUE(std::find(list.begin(), list.end(), std::make_pair("world"s, 2)) != list.end());
-    ASSERT_TRUE(std::find(list.begin(), list.end(), std::make_pair("a"s, 1)) != list.end());
-    ASSERT_TRUE(std::find(list.begin(), list.end(), std::make_pair("b"s, 1)) != list.end());
-    ASSERT_TRUE(std::find(list.begin(), list.end(), std::make_pair("c"s, 1)) != list.end());
-    ASSERT_TRUE(std::find(list.begin(), list.end(), std::make_pair("d"s, 1)) != list.end());
+    EXPECT_TRUE(std::find(list.begin(), list.end(), std::make_pair("hello"s, 2)) != list.end());
+    EXPECT_TRUE(std::find(list.begin(), list.end(), std::make_pair("world"s, 2)) != list.end());
+    EXPECT_TRUE(std::find(list.begin(), list.end(), std::make_pair("a"s, 1)) != list.end());
+    EXPECT_TRUE(std::find(list.begin(), list.end(), std::make_pair("b"s, 1)) != list.end());
+    EXPECT_TRUE(std::find(list.begin(), list.end(), std::make_pair("c"s, 1)) != list.end());
+    EXPECT_TRUE(std::find(list.begin(), list.end(), std::make_pair("d"s, 1)) != list.end());
 
-    ASSERT_FALSE(std::find(list.begin(), list.end(), std::make_pair("e"s, 1)) != list.end());
+    EXPECT_FALSE(std::find(list.begin(), list.end(), std::make_pair("e"s, 1)) != list.end());
 }
 
 TEST(TestHash, TestListEmpty) {
