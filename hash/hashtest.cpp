@@ -13,19 +13,15 @@ TEST(TestHash, TestInsert) {
     EXPECT_EQ(0, hash_table.find("helloworld"));
 }
 
-class HashSmallTestFixture: public ::testing::Test {
+template <unsigned int M = 2>
+class GenericHashTestFixture: public testing::Test {
 protected:
-    void SetUp() override;
-    Hash hash_table{ 2 };
+    virtual void SetUp() override;
+    Hash hash_table{ M };
 };
 
-class HashLargeTestFixture: public ::testing::Test {
-protected:
-    void SetUp() override;
-    Hash hash_table{ 10 };
-};
-
-void HashSmallTestFixture::SetUp() {
+template <unsigned int M>
+void GenericHashTestFixture<M>::SetUp() {
     hash_table.insert("hello", 1);
     hash_table.insert("world", 1);
     hash_table.insert("hello", 1);
@@ -36,19 +32,10 @@ void HashSmallTestFixture::SetUp() {
     hash_table.insert("d", 1);
 }
 
-void HashLargeTestFixture::SetUp() {
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("a", 1);
-    hash_table.insert("b", 1);
-    hash_table.insert("c", 1);
-    hash_table.insert("d", 1);
-}
+using HashTestFixture = GenericHashTestFixture<2>;
+using LargeHashTestFixture = GenericHashTestFixture<10>;
 
-
-TEST_F(HashSmallTestFixture, TestMultipleInsert) {
+TEST_F(HashTestFixture, TestMultipleInsert) {
     EXPECT_EQ(2, hash_table.find("hello"));
     EXPECT_EQ(2, hash_table.find("world"));
     EXPECT_EQ(1, hash_table.find("a"));
@@ -58,7 +45,7 @@ TEST_F(HashSmallTestFixture, TestMultipleInsert) {
     EXPECT_EQ(0, hash_table.find("e"));
 }
 
-TEST_F(HashSmallTestFixture, TestDelete) {
+TEST_F(HashTestFixture, TestDelete) {
     hash_table.del("hello");
 
     EXPECT_EQ(0, hash_table.find("hello"));
@@ -87,7 +74,7 @@ TEST(TestHash, TestIncrease) {
     EXPECT_EQ(0, hash_table.find("helloworld"));
 }
 
-TEST_F(HashLargeTestFixture, TestHist) {
+TEST_F(LargeHashTestFixture, TestHist) {
     std::map<int, int> hist = hash_table.hist();
 
     int unique_word_count = 0;
@@ -109,7 +96,7 @@ TEST(TestHash, TestHistEmpty) {
     EXPECT_EQ(100, hist[0]);
 }
 
-TEST_F(HashSmallTestFixture, TestListAllKeys) {
+TEST_F(HashTestFixture, TestListAllKeys) {
     std::vector<std::string> keys = hash_table.list_all_keys();
 
     ASSERT_EQ(6, keys.size());
@@ -130,7 +117,7 @@ TEST(TestHash, TestListAllKeysEmpty) {
     ASSERT_EQ(0, keys.size());
 }
 
-TEST_F(HashSmallTestFixture, TestList) {
+TEST_F(HashTestFixture, TestList) {
     using namespace std::string_literals;
 
     std::vector<std::pair<std::string, int>> list = hash_table.list();
