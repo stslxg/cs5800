@@ -2,6 +2,12 @@
 #include <algorithm>
 #include "rbtree.hpp"
 
+static void __sort(Node *r);
+static Node* __min(Node *r);
+static Node* __max(Node *r);
+static Node* __search(Node *r, int key);
+static int __get_depth(Node *r);
+
 void Tree::sort() {
     __sort(root);
     std::cout << std::endl;
