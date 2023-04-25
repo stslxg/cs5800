@@ -2,18 +2,41 @@
 #include "hash.hpp"
 
 TEST(TestHash, TestInsert) {
-    Hash hash_table(1000);
+    Hash hash_table(2);
     hash_table.insert("hello", 1);
     hash_table.insert("world", 1);
     hash_table.insert("hello", 1);
     hash_table.insert("world", 1);
 
-    EXPECT_EQ(hash_table.find("hello"), 2);
-    EXPECT_EQ(hash_table.find("world"), 2);
-    EXPECT_EQ(hash_table.find("helloworld"), 0);
+    ASSERT_EQ(2, hash_table.find("hello"));
+    ASSERT_EQ(2, hash_table.find("world"));
+    ASSERT_EQ(0, hash_table.find("helloworld"));
 }
 
-int main(int argc, char **argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+TEST(TestHash, TestDelete) {
+    Hash hash_table(2);
+    hash_table.insert("hello", 1);
+    hash_table.insert("world", 1);
+    hash_table.insert("hello", 1);
+    hash_table.insert("world", 1);
+    hash_table.insert("a", 1);
+    hash_table.insert("b", 1);
+    hash_table.insert("c", 1);
+    hash_table.insert("d", 1);
+
+    hash_table.del("hello");
+
+    ASSERT_EQ(0, hash_table.find("hello"));
+    ASSERT_EQ(2, hash_table.find("world"));
+    ASSERT_EQ(1, hash_table.find("a"));
+    ASSERT_EQ(1, hash_table.find("b"));
+    ASSERT_EQ(1, hash_table.find("c"));
+    ASSERT_EQ(1, hash_table.find("d"));
 }
+
+TEST(TestHash, TestEmptyHash) {
+    Hash hash_table(2);
+    ASSERT_EQ(0, hash_table.find("hello"));
+    ASSERT_EQ(0, hash_table.find("world"));
+}
+
