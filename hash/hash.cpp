@@ -55,7 +55,7 @@ int Hash::find(std::string word) const {
 
 std::map<int, int> Hash::hist() const {
     std::map<int, int> res;
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < m; i++) {
         Node *p = H[i];
         int len = 0;
         while (p) {
@@ -69,7 +69,7 @@ std::map<int, int> Hash::hist() const {
 
 std::vector<std::string> Hash::list_all_keys() const {
     std::vector<std::string> res;
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < m; i++) {
         Node *p = H[i];
         while (p) {
             res.push_back(p->word);
@@ -81,7 +81,7 @@ std::vector<std::string> Hash::list_all_keys() const {
 
 std::vector<std::pair<std::string, int>> Hash::list() const {
     std::vector<std::pair<std::string, int>> res;
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < m; i++) {
         Node *p = H[i];
         while (p) {
             res.emplace_back(p->word, p->count);
