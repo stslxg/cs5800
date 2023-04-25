@@ -28,9 +28,3 @@ private:
     void transplant(Node *u, Node *v);
     void insert_fixup(Node *z);
 };
-
-static void __sort(Node *r);
-static Node* __min(Node *r);
-static Node* __max(Node *r);
-static Node* __search(Node *r, int key);
-static int __get_depth(Node *r);
