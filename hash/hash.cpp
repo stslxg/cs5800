@@ -5,7 +5,6 @@
 #include <map>
 #include "hash.hpp"
 
-
 void Hash::insert(std::string word, int count) {
     int i = hash(word);
     Node *p = search(word);
@@ -108,4 +107,15 @@ Node* Hash::search(std::string word) const {
         p = p->next;
     }
     return nullptr;
+}
+
+Hash::~Hash() {
+    for (int i = 0; i < m; i++) {
+        Node *p = H[i];
+        while (p) {
+            Node *q = p;
+            p = p->next;
+            delete q;
+        }
+    }
 }

@@ -20,6 +20,7 @@ public:
     std::map<int, int> hist() const;
     std::vector<std::string> list_all_keys() const;
     std::vector<std::pair<std::string, int>> list() const;
+    ~Hash();
 private:
     static constexpr unsigned int M = 1000;
     const unsigned int m;
