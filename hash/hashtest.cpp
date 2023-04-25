@@ -32,7 +32,7 @@ void GenericHashTestFixture<M>::SetUp() {
     hash_table.insert("d", 1);
 }
 
-using HashTestFixture = GenericHashTestFixture<2>;
+using HashTestFixture = GenericHashTestFixture<>;
 using LargeHashTestFixture = GenericHashTestFixture<10>;
 
 TEST_F(HashTestFixture, TestMultipleInsert) {
