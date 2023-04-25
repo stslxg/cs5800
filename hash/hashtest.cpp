@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <string>
+#include <algorithm>
 #include "hash.hpp"
 
 TEST(TestHash, TestInsert) {
@@ -12,21 +13,19 @@ TEST(TestHash, TestInsert) {
     ASSERT_EQ(0, hash_table.find("helloworld"));
 }
 
-TEST(TestHash, TestMultipleInsert) {
-    Hash hash_table(2);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
+class HashSmallTestFixture: public ::testing::Test {
+protected:
+    void SetUp() override;
+    Hash hash_table{ 2 };
+};
 
-    ASSERT_EQ(3, hash_table.find("hello"));
-    ASSERT_EQ(3, hash_table.find("world"));
-}
+class HashLargeTestFixture: public ::testing::Test {
+protected:
+    void SetUp() override;
+    Hash hash_table{ 10 };
+};
 
-TEST(TestHash, TestDelete) {
-    Hash hash_table(2);
+void HashSmallTestFixture::SetUp() {
     hash_table.insert("hello", 1);
     hash_table.insert("world", 1);
     hash_table.insert("hello", 1);
@@ -35,7 +34,31 @@ TEST(TestHash, TestDelete) {
     hash_table.insert("b", 1);
     hash_table.insert("c", 1);
     hash_table.insert("d", 1);
+}
 
+void HashLargeTestFixture::SetUp() {
+    hash_table.insert("hello", 1);
+    hash_table.insert("world", 1);
+    hash_table.insert("hello", 1);
+    hash_table.insert("world", 1);
+    hash_table.insert("a", 1);
+    hash_table.insert("b", 1);
+    hash_table.insert("c", 1);
+    hash_table.insert("d", 1);
+}
+
+
+TEST_F(HashSmallTestFixture, TestMultipleInsert) {
+    ASSERT_EQ(2, hash_table.find("hello"));
+    ASSERT_EQ(2, hash_table.find("world"));
+    ASSERT_EQ(1, hash_table.find("a"));
+    ASSERT_EQ(1, hash_table.find("b"));
+    ASSERT_EQ(1, hash_table.find("c"));
+    ASSERT_EQ(1, hash_table.find("d"));
+    ASSERT_EQ(0, hash_table.find("e"));
+}
+
+TEST_F(HashSmallTestFixture, TestDelete) {
     hash_table.del("hello");
 
     ASSERT_EQ(0, hash_table.find("hello"));
@@ -64,17 +87,7 @@ TEST(TestHash, TestIncrease) {
     ASSERT_EQ(0, hash_table.find("helloworld"));
 }
 
-TEST(TestHash, TestHist) {
-    Hash hash_table(10);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("a", 1);
-    hash_table.insert("b", 1);
-    hash_table.insert("c", 1);
-    hash_table.insert("d", 1);
-
+TEST_F(HashLargeTestFixture, TestHist) {
     std::map<int, int> hist = hash_table.hist();
 
     int unique_word_count = 0;
@@ -96,17 +109,7 @@ TEST(TestHash, TestHistEmpty) {
     ASSERT_EQ(100, hist[0]);
 }
 
-TEST(TestHash, TestListAllKeys) {
-    Hash hash_table(3);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("a", 1);
-    hash_table.insert("b", 1);
-    hash_table.insert("c", 1);
-    hash_table.insert("d", 1);
-
+TEST_F(HashSmallTestFixture, TestListAllKeys) {
     std::vector<std::string> keys = hash_table.list_all_keys();
 
     ASSERT_EQ(6, keys.size());
@@ -127,18 +130,8 @@ TEST(TestHash, TestListAllKeysEmpty) {
     ASSERT_EQ(0, keys.size());
 }
 
-TEST(TestHash, TestList) {
+TEST_F(HashSmallTestFixture, TestList) {
     using namespace std::string_literals;
-    
-    Hash hash_table(3);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("hello", 1);
-    hash_table.insert("world", 1);
-    hash_table.insert("a", 1);
-    hash_table.insert("b", 1);
-    hash_table.insert("c", 1);
-    hash_table.insert("d", 1);
 
     std::vector<std::pair<std::string, int>> list = hash_table.list();
 
