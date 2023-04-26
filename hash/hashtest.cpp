@@ -13,8 +13,22 @@ TEST(TestHash, TestInsert) {
     EXPECT_EQ(0, hash_table.find("helloworld"));
 }
 
+class TestEmptyFixture: public ::testing::TestWithParam<std::string> {
+protected:
+    Hash hash_table{ 2 };
+};
+
+TEST_P(TestEmptyFixture, TestEmptyParam) {
+    std::string s(GetParam());
+    ASSERT_EQ(0, hash_table.find(s));
+}
+
+INSTANTIATE_TEST_SUITE_P(TestEmpty, TestEmptyFixture, ::testing::Values(
+    "hello", "world", "helloworld"
+));
+
 template <unsigned int M = 2>
-class GenericHashTestFixture: public testing::Test {
+class GenericHashTestFixture: public ::testing::Test {
 protected:
     virtual void SetUp() override;
     Hash hash_table{ M };
@@ -54,12 +68,6 @@ TEST_F(HashTestFixture, TestDelete) {
     EXPECT_EQ(1, hash_table.find("b"));
     EXPECT_EQ(1, hash_table.find("c"));
     EXPECT_EQ(1, hash_table.find("d"));
-}
-
-TEST(TestHash, TestEmptyHash) {
-    Hash hash_table(2);
-    EXPECT_EQ(0, hash_table.find("hello"));
-    EXPECT_EQ(0, hash_table.find("world"));
 }
 
 TEST(TestHash, TestIncrease) {
