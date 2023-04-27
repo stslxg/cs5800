@@ -26,6 +26,8 @@ Node* Tree::search(int key) {
 }
 
 Node* Tree::suc(Node *r) {
+    if (!r)
+        return nullptr;
     if (r->right)
         return min_helper(r->right);
     Node *y = r->parent;
@@ -37,6 +39,8 @@ Node* Tree::suc(Node *r) {
 }
 
 Node* Tree::pred(Node *r) {
+    if (!r)
+        return nullptr;
     if (r->left)
         return max_helper(r->left);
     Node *y = r->parent;
@@ -196,7 +200,7 @@ void sort_helper(Node *r) {
 }
 
 Node* min_helper(Node *r) {
-    if (r->left) {
+    if (r && r->left) {
         return min_helper(r->left);
     } else {
         return r;
@@ -204,7 +208,7 @@ Node* min_helper(Node *r) {
 }
 
 Node* max_helper(Node *r) {
-    if (r->right) {
+    if (r && r->right) {
         return max_helper(r->right);
     } else {
         return r;
