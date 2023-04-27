@@ -5,7 +5,7 @@
 #include <map>
 #include "hash.hpp"
 
-void Hash::insert(std::string word, int count) {
+void Hash::insert(const std::string& word, int count) {
     int i = hash(word);
     Node *p = search(word);
     if (p) {
@@ -22,7 +22,7 @@ void Hash::insert(std::string word, int count) {
     }
 }
 
-void Hash::del(std::string word) {
+void Hash::del(const std::string& word) {
     int i = hash(word);
     Node *p = search(word);
     if (p) {
@@ -36,7 +36,7 @@ void Hash::del(std::string word) {
     }
 }
 
-void Hash::increase(std::string word) {
+void Hash::increase(const std::string& word) {
     Node *p = search(word);
     if (p)
         (p->count)++;
@@ -44,7 +44,7 @@ void Hash::increase(std::string word) {
         insert(word, 1);
 }
 
-int Hash::find(std::string word) const {
+int Hash::find(const std::string& word) const {
     Node *p = search(word);
     if (p)
         return p->count;
@@ -90,7 +90,7 @@ std::vector<std::pair<std::string, int>> Hash::list() const {
     return res;
 }
 
-int Hash::hash(std::string word) const {
+int Hash::hash(const std::string& word) const {
     unsigned long v = 5381;
     for (char c: word) {
         v = v * 33 + c;
@@ -98,7 +98,7 @@ int Hash::hash(std::string word) const {
     return v % m;
 }
 
-Node* Hash::search(std::string word) const {
+Node* Hash::search(const std::string& word) const {
     int i = hash(word);
     Node *p = H[i];
     while (p) {

@@ -4,7 +4,7 @@
 
 class MockHash: public Hash {
 public:
-    MOCK_METHOD2(insert, void(std::string, int));
+    MOCK_METHOD(void, insert, (const std::string&, int), (override));
 };
 
 TEST(TestHashWithMock, TestIncrease) {
