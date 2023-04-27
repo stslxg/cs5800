@@ -25,6 +25,6 @@ private:
     static constexpr unsigned int M = 1000;
     const unsigned int m;
     std::vector<Node*> H;
-    int hash(const std::string& word) const;
+    virtual int hash(const std::string& word) const;
     Node* search(const std::string& word) const;
 };
