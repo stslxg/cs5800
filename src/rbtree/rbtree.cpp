@@ -2,32 +2,32 @@
 #include <algorithm>
 #include "rbtree.hpp"
 
-static void __sort(Node *r);
-static Node* __min(Node *r);
-static Node* __max(Node *r);
-static Node* __search(Node *r, int key);
-static int __get_depth(Node *r);
+static void sort_helper(Node *r);
+static Node* min_helper(Node *r);
+static Node* max_helper(Node *r);
+static Node* search_helper(Node *r, int key);
+static int get_depth_helper(Node *r);
 
 void Tree::sort() {
-    __sort(root);
+    sort_helper(root);
     std::cout << std::endl;
 }
 
 Node* Tree::min() {
-    return __min(root);
+    return min_helper(root);
 }
 
 Node* Tree::max() {
-    return __max(root);
+    return max_helper(root);
 }
 
 Node* Tree::search(int key) {
-    return __search(root, key);
+    return search_helper(root, key);
 }
 
 Node* Tree::suc(Node *r) {
     if (r->right)
-        return __min(r->right);
+        return min_helper(r->right);
     Node *y = r->parent;
     while (y && r == y->right) {
         r = y;
@@ -38,7 +38,7 @@ Node* Tree::suc(Node *r) {
 
 Node* Tree::pred(Node *r) {
     if (r->left)
-        return __max(r->left);
+        return max_helper(r->left);
     Node *y = r->parent;
     while (y && r == y->left) {
         r = y;
@@ -83,7 +83,7 @@ void Tree::right_rotate(Node *y) {
 }
 
 int Tree::get_depth() {
-    return __get_depth(root);
+    return get_depth_helper(root);
 }
 
 void Tree::transplant(Node *u, Node *v) {
@@ -104,7 +104,7 @@ void Tree::del(Node *z) {
     } else if (!z->right) {
         transplant(z, z->left);
     } else {
-        Node *y = __min(z->right);
+        Node *y = min_helper(z->right);
         if (y->parent != z) {
             transplant(y, y->right);
             y->right = z->right;
@@ -181,49 +181,49 @@ void Tree::insert(int key) {
     std::cout << "d: " << get_depth() << std::endl;
 }
 
-void __sort(Node *r) {
+void sort_helper(Node *r) {
     if (!r)
         return;
     std::cout << "( ";
-    __sort(r->left);
+    sort_helper(r->left);
     std::cout << r->val << ": ";
     if (r->red)
         std::cout << "r ";
     else
         std::cout << "b ";
-    __sort(r->right);
+    sort_helper(r->right);
     std::cout << " )";
 }
 
-Node* __min(Node *r) {
+Node* min_helper(Node *r) {
     if (r->left) {
-        return __min(r->left);
+        return min_helper(r->left);
     } else {
         return r;
     }
 }
 
-Node* __max(Node *r) {
+Node* max_helper(Node *r) {
     if (r->right) {
-        return __max(r->right);
+        return max_helper(r->right);
     } else {
         return r;
     }
 }
 
-Node* __search(Node *r, int key) {
+Node* search_helper(Node *r, int key) {
     if (!r || r->val == key)
         return r;
     if (r->val > key) {
-        return __search(r->left, key);
+        return search_helper(r->left, key);
     } else {
-        return __search(r->right, key);
+        return search_helper(r->right, key);
     }
 }
 
-int __get_depth(Node *r)
+int get_depth_helper(Node *r)
 {
     if (!r)
         return 0;
-    return 1 + std::max(__get_depth(r->left), __get_depth(r->right));
+    return 1 + std::max(get_depth_helper(r->left), get_depth_helper(r->right));
 }
