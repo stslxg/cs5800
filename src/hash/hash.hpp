@@ -13,7 +13,7 @@ struct Node {
 class Hash {
 public:
     Hash(const unsigned int m = M): H{ m, nullptr }, m{ m } {};
-    void insert(std::string word, int count);
+    virtual void insert(std::string word, int count);
     void del(std::string word);
     void increase(std::string word);
     int find(std::string word) const;
