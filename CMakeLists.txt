@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
+project(CS5800Algorithms)
+
 include(FetchContent)
 FetchContent_Declare(
     gtest
