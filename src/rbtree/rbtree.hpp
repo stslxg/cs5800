@@ -23,8 +23,8 @@ public:
     void insert(int key);
 private:
     Node* root;
-    void left_rotate(Node *x);
-    void right_rotate(Node *y);
+    virtual void left_rotate(Node *x);
+    virtual void right_rotate(Node *y);
     void transplant(Node *u, Node *v);
     void insert_fixup(Node *z);
 };
