@@ -3,7 +3,7 @@
 #include <vector>
 #include <utility>
 #include <map>
-#include "hash.hpp"
+#include "hash/hash.hpp"
 
 void Hash::insert(const std::string& word, int count) {
     int i = hash(word);

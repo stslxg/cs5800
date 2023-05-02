@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <string>
 #include <algorithm>
-#include "hash.hpp"
+#include "hash/hash.hpp"
 
 TEST(TestHash, TestInsert) {
     Hash hash_table(2);

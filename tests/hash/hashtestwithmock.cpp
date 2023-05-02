@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "hash.hpp"
+#include "hash/hash.hpp"
 
 class MockHashForInsert: public Hash {
 public:

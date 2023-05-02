@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "hash.hpp"
+#include "hash/hash.hpp"
 
 constexpr int M = 1000;
 

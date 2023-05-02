@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#include "rbtree.hpp"
+#include "rbtree/rbtree.hpp"
 
 static void sort_helper(Node *r);
 static Node* min_helper(Node *r);

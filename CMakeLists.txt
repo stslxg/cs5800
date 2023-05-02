@@ -9,5 +9,6 @@ FetchContent_Declare(
     GIT_TAG release-1.12.1)
 FetchContent_MakeAvailable(gtest)
 
-add_subdirectory(src/hash)
-add_subdirectory(src/rbtree)
+add_subdirectory(src)
+add_subdirectory(tests)
+add_subdirectory(apps)

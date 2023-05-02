@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "rbtree.hpp"
+#include "rbtree/rbtree.hpp"
 
 class MockTree: public Tree {
 public:
