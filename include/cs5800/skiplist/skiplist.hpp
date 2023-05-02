@@ -15,6 +15,7 @@ public:
     bool lookup(int key);
     Node *search(int key);
     void print();
+    ~SkipList();
 protected:
     Node *head, *tail;
     int size;

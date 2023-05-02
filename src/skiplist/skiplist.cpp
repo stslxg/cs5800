@@ -84,6 +84,15 @@ Node* SkipList::search(int key) {
     return res[0]->next[0];
 }
 
+SkipList::~SkipList() {
+    Node *p = head;
+    while (p) {
+        Node *q = p;
+        p = p->next[0];
+        delete q;
+    }
+}
+
 std::vector<Node*> search_helper(int key, Node* head) {
     std::vector<Node*> prevs(head->next.size(), nullptr);
     Node *p = head;
