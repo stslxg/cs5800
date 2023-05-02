@@ -26,7 +26,7 @@ void SkipList::insert(int key) {
     do {
         p->next.push_back(res[i]->next[i]);
         res[i]->next[i] = p;
-        if (d(gen)) {
+        if (get_rand_bit()) {
             i++;
             if (i >= head->next.size()) {
                 head->next.push_back(tail);
@@ -73,6 +73,15 @@ void SkipList::print() {
         }
         std::cout << std::endl;
     }
+}
+
+int SkipList::get_rand_bit() {
+    return d(gen);
+}
+
+Node* SkipList::search(int key) {
+    std::vector<Node*> res = search_helper(key, head);
+    return res[0]->next[0];
 }
 
 std::vector<Node*> search_helper(int key, Node* head) {

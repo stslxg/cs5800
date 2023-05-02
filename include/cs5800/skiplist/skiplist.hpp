@@ -13,11 +13,13 @@ public:
     void insert(int key);
     bool del(int key);
     bool lookup(int key);
+    Node *search(int key);
     void print();
-private:
+protected:
     Node *head, *tail;
     int size;
     std::random_device rd;
     std::mt19937 gen;
     std::bernoulli_distribution d;
+    virtual int get_rand_bit();
 };
