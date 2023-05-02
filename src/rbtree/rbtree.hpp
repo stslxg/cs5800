@@ -21,6 +21,7 @@ public:
     int get_depth();
     void del(Node *z);
     void insert(int key);
+    ~Tree();
 protected:
     Node* root;
     virtual void left_rotate(Node *x);

@@ -6,6 +6,7 @@ static void sort_helper(Node *r);
 static Node* min_helper(Node *r);
 static Node* max_helper(Node *r);
 static Node* search_helper(Node *r, int key);
+static void delete_helper(Node *r);
 static int get_depth_helper(Node *r);
 
 void Tree::sort() {
@@ -230,4 +231,16 @@ int get_depth_helper(Node *r)
     if (!r)
         return 0;
     return 1 + std::max(get_depth_helper(r->left), get_depth_helper(r->right));
+}
+
+Tree::~Tree() {
+    delete_helper(root);
+}
+
+void delete_helper(Node *r) {
+    if (!r)
+        return;
+    delete_helper(r->left);
+    delete_helper(r->right);
+    delete r;
 }
