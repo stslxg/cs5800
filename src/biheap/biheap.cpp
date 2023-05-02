@@ -2,7 +2,7 @@
 #include <climits>
 #include <utility>
 #include <unordered_map>
-#include "biheap.hpp"
+#include "biheap/biheap.hpp"
 
 BiHeap::BiHeap(int key) {
     Node *p = new Node(key);
