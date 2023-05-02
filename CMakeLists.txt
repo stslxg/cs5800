@@ -9,6 +9,8 @@ FetchContent_Declare(
     GIT_TAG release-1.12.1)
 FetchContent_MakeAvailable(gtest)
 
+enable_testing()
+
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(apps)
