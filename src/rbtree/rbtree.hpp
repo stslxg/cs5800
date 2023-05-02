@@ -21,7 +21,7 @@ public:
     int get_depth();
     void del(Node *z);
     void insert(int key);
-private:
+protected:
     Node* root;
     virtual void left_rotate(Node *x);
     virtual void right_rotate(Node *y);
