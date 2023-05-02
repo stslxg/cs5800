@@ -1,5 +1,5 @@
 #include <iostream>
-#include "biheap.hpp"
+#include "biheap/biheap.hpp"
 
 int main() {
     char c;
