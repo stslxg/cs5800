@@ -23,9 +23,4 @@ public:
     void print();
 private:
     std::unordered_map<int, Node*> pos;
-    Node* __reverse(Node *cur);
-    void __print(Node *r);
-    std::pair<Node*, Node*> __search_min();
-    Node* __mergeTree(Node *p, Node *q);
-    Node* __merge(Node *p, Node *q);
 };

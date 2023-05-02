@@ -4,6 +4,12 @@
 #include <unordered_map>
 #include "biheap/biheap.hpp"
 
+static Node* reverse_helper(Node *cur);
+static void print_helper(Node *r);
+static std::pair<Node*, Node*> search_min_helper(Node *head);
+static Node* mergeTree_helper(Node *p, Node *q);
+static Node* merge_helper(Node *p, Node *q);
+
 BiHeap::BiHeap(int key) {
     Node *p = new Node(key);
     head = p;
@@ -18,7 +24,7 @@ void BiHeap::insert(int key) {
 }
     
 int BiHeap::min() {
-    auto [q, p] = __search_min();
+    auto [q, p] = search_min_helper(head);
     if (p)
         return p->key;
     else
@@ -26,12 +32,12 @@ int BiHeap::min() {
 }
     
 void BiHeap::merge(BiHeap& h) {
-    head = __merge(head, h.head);
+    head = merge_helper(head, h.head);
     h.head = nullptr;
 }
     
 int BiHeap::extract_min() {
-    auto [q, p] = __search_min();
+    auto [q, p] = search_min_helper(head);
     if (p) {
         int res = p->key;
         if (q)
@@ -41,9 +47,9 @@ int BiHeap::extract_min() {
         p->sibling = nullptr;
         Node *reversed = nullptr;
         if (p->child) {
-            reversed = __reverse(p->child);
+            reversed = reverse_helper(p->child);
         }
-        head = __merge(head, reversed);
+        head = merge_helper(head, reversed);
         pos.erase(res);
         delete p;
         return res;
@@ -82,10 +88,10 @@ bool BiHeap::del(int key) {
 }
     
 void BiHeap::print() {
-    __print(head);
+    print_helper(head);
 }
 
-Node* BiHeap::__reverse(Node *cur) {
+Node* reverse_helper(Node *cur) {
     Node *prev = nullptr;
     while (cur) {
         Node *tmp = cur->sibling;
@@ -97,17 +103,17 @@ Node* BiHeap::__reverse(Node *cur) {
     return prev;
 }
     
-void BiHeap::__print(Node *r) {
+void print_helper(Node *r) {
     while (r) {
         std::cout << "k: " << r->key << " d: " << r->degree;
         if (r->sibling)
             std::cout << " sib-k: " << r->sibling->key;
         std::cout << std::endl;
-        __print(r->child);
+        print_helper(r->child);
         r = r->sibling;
     }    
 }
-std::pair<Node*, Node*> BiHeap::__search_min() {
+std::pair<Node*, Node*> search_min_helper(Node *head) {
     Node *q = nullptr, *p = head, *res_q = nullptr, *res_p = nullptr;
     int now = INT_MAX;
     while (p) {
@@ -123,7 +129,7 @@ std::pair<Node*, Node*> BiHeap::__search_min() {
     return {res_q, res_p};
 }
     
-Node* BiHeap::__mergeTree(Node *p, Node *q) {
+Node* mergeTree_helper(Node *p, Node *q) {
     if (p->key <= q->key) {
         q->sibling = p->child;
         p->child = q;
@@ -139,7 +145,7 @@ Node* BiHeap::__mergeTree(Node *p, Node *q) {
     }
 }
     
-Node* BiHeap::__merge(Node *p, Node *q) {
+Node* merge_helper(Node *p, Node *q) {
     Node *cur = nullptr, *prev = nullptr, *head = nullptr, *next_p = nullptr, *next_q = nullptr;
     
     auto set_next = [&](Node *next_cur, bool advance_prev = true) {
@@ -162,7 +168,7 @@ Node* BiHeap::__merge(Node *p, Node *q) {
         if (p && q && p->degree == q->degree) {
             p->sibling = nullptr;
             q->sibling = nullptr;
-            Node *mergered = __mergeTree(p, q);
+            Node *mergered = mergeTree_helper(p, q);
             set_next(mergered);
             
             p = next_p;
@@ -170,7 +176,7 @@ Node* BiHeap::__merge(Node *p, Node *q) {
         } else if (!q || (p && p->degree < q->degree)) {
             p->sibling = nullptr;
             if (cur && cur->degree == p->degree) {
-                Node *mergered = __mergeTree(cur, p);
+                Node *mergered = mergeTree_helper(cur, p);
                 set_next(mergered, false);
             } else {
                 set_next(p);
@@ -180,7 +186,7 @@ Node* BiHeap::__merge(Node *p, Node *q) {
         } else {
             q->sibling = nullptr;
             if (cur && cur->degree == q->degree) {
-                Node *mergered = __mergeTree(cur, q);
+                Node *mergered = mergeTree_helper(cur, q);
                 set_next(mergered, false);
             } else {
                 set_next(q);
