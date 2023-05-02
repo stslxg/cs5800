@@ -9,6 +9,7 @@ static void print_helper(Node *r);
 static std::pair<Node*, Node*> search_min_helper(Node *head);
 static Node* mergeTree_helper(Node *p, Node *q);
 static Node* merge_helper(Node *p, Node *q);
+static void delete_helper(Node *p);
 
 BiHeap::BiHeap(int key) {
     Node *p = new Node(key);
@@ -197,4 +198,16 @@ Node* merge_helper(Node *p, Node *q) {
     }
     
     return head;
+}
+
+BiHeap::~BiHeap() {
+    delete_helper(head);
+}
+
+void delete_helper(Node *p) {
+    if (!p)
+        return;
+    delete_helper(p->child);
+    delete_helper(p->sibling);
+    delete p;
 }

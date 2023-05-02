@@ -21,6 +21,7 @@ public:
     bool decrease(int key, int new_key);
     bool del(int key);
     void print();
+    ~BiHeap();
 private:
     std::unordered_map<int, Node*> pos;
 };
