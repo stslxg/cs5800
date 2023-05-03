@@ -18,7 +18,6 @@ public:
     ~SkipList();
 protected:
     Node *head, *tail;
-    int size;
     std::random_device rd;
     std::mt19937 gen;
     std::bernoulli_distribution d;
