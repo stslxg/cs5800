@@ -119,6 +119,7 @@ void Tree::del(Node *z) {
         y->left = z->left;
         y->left->parent = y;
     }
+    delete z;
     std::cout << "d: " << get_depth() << std::endl;
 }
 
