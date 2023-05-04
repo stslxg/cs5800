@@ -21,12 +21,14 @@ int main() {
             int kk;
             std::cin >> kk;
             if (kk < k)
-                std::cout << H.decrease(k, kk) << std::endl;
+                std::cout << std::boolalpha << H.decrease(k, kk) << std::endl;
             else
                 std::cout << false << std::endl;
         } else if (c == 'k') {
             std::cin >> k;
-            std::cout << H.del(k) << std::endl;
+            std::cout << std::boolalpha << H.del(k) << std::endl;
+        } else if (c == 'q') {
+            break;
         }
     }
     return 0;
