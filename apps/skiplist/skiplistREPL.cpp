@@ -12,12 +12,14 @@ int main() {
             L.insert(k);
         } else if (c == 'l') {
             std::cin >> k;
-            std::cout << L.lookup(k) << std::endl;
+            std::cout << std::boolalpha << L.lookup(k) << std::endl;
         } else if (c == 'p') {
             L.print();
         } else if (c == 'd') {
             std::cin >> k;
-            std::cout << L.del(k) << std::endl;
+            std::cout << std::boolalpha << L.del(k) << std::endl;
+        } else if (c == 'q') {
+            break;
         }
     }
     return 0;
