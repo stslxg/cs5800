@@ -3,15 +3,16 @@
 #include <vector>
 #include <utility>
 #include <map>
+#include <experimental/memory>
 #include "hash/hash.hpp"
 
 void Hash::insert(const std::string& word, int count) {
     int i = hash(word);
-    Node *p = search(word);
+    std::experimental::observer_ptr<Node> p = search(word);
     if (p) {
         p->count += count;
     } else {
-        p = new Node;
+        p = std::experimental::make_observer<Node>(new Node());
         p->word = word;
         p->count = count;
         p->next = H[i];
@@ -24,7 +25,7 @@ void Hash::insert(const std::string& word, int count) {
 
 void Hash::del(const std::string& word) {
     int i = hash(word);
-    Node *p = search(word);
+    std::experimental::observer_ptr<Node> p = search(word);
     if (p) {
         if (p->next)
             p->next->prev = p->prev;
@@ -32,12 +33,13 @@ void Hash::del(const std::string& word) {
             p->prev->next = p->next;
         else
             H[i] = p->next;
-        delete p;
+        Node *q = p.get();
+        delete q;
     }
 }
 
 void Hash::increase(const std::string& word) {
-    Node *p = search(word);
+    std::experimental::observer_ptr<Node> p = search(word);
     if (p)
         (p->count)++;
     else
@@ -45,7 +47,7 @@ void Hash::increase(const std::string& word) {
 }
 
 int Hash::find(const std::string& word) const {
-    Node *p = search(word);
+    std::experimental::observer_ptr<Node> p = search(word);
     if (p)
         return p->count;
     else
@@ -55,7 +57,7 @@ int Hash::find(const std::string& word) const {
 std::map<int, int> Hash::hist() const {
     std::map<int, int> res;
     for (int i = 0; i < m; i++) {
-        Node *p = H[i];
+        std::experimental::observer_ptr<Node> p = H[i];
         int len = 0;
         while (p) {
             len++;
@@ -69,7 +71,7 @@ std::map<int, int> Hash::hist() const {
 std::vector<std::string> Hash::list_all_keys() const {
     std::vector<std::string> res;
     for (int i = 0; i < m; i++) {
-        Node *p = H[i];
+        std::experimental::observer_ptr<Node> p = H[i];
         while (p) {
             res.push_back(p->word);
             p = p->next;
@@ -81,7 +83,7 @@ std::vector<std::string> Hash::list_all_keys() const {
 std::vector<std::pair<std::string, int>> Hash::list() const {
     std::vector<std::pair<std::string, int>> res;
     for (int i = 0; i < m; i++) {
-        Node *p = H[i];
+        std::experimental::observer_ptr<Node> p = H[i];
         while (p) {
             res.emplace_back(p->word, p->count);
             p = p->next;
@@ -98,9 +100,9 @@ int Hash::hash(const std::string& word) const {
     return v % m;
 }
 
-Node* Hash::search(const std::string& word) const {
+std::experimental::observer_ptr<Node> Hash::search(const std::string& word) const {
     int i = hash(word);
-    Node *p = H[i];
+    std::experimental::observer_ptr<Node> p = H[i];
     while (p) {
         if (p->word == word)
             return p;
@@ -111,9 +113,9 @@ Node* Hash::search(const std::string& word) const {
 
 Hash::~Hash() {
     for (int i = 0; i < m; i++) {
-        Node *p = H[i];
+        std::experimental::observer_ptr<Node> p = H[i];
         while (p) {
-            Node *q = p;
+            Node* q = p.get();
             p = p->next;
             delete q;
         }

@@ -3,11 +3,12 @@
 #include <map>
 #include <vector>
 #include <utility>
+#include <experimental/memory>
 
 struct Node {
     std::string word;
     int count;
-    Node *prev, *next;
+    std::experimental::observer_ptr<Node> prev, next;
 };
 
 class Hash {
@@ -24,7 +25,7 @@ public:
 private:
     static constexpr unsigned int M = 1000;
     const unsigned int m;
-    std::vector<Node*> H;
+    std::vector<std::experimental::observer_ptr<Node>> H;
     virtual int hash(const std::string& word) const;
-    Node* search(const std::string& word) const;
+    std::experimental::observer_ptr<Node> search(const std::string& word) const;
 };
