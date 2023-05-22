@@ -11,6 +11,9 @@ FetchContent_MakeAvailable(gtest)
 
 enable_testing()
 
+add_compile_options(-fprofile-arcs -ftest-coverage)
+add_link_options(-lgcov --coverage)
+
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(apps)
